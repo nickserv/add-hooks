@@ -45,6 +45,7 @@
 Unlike `mapcar', the list is flattened nondestructively before it is returned."
   (apply #'append (mapcar function sequence)))
 
+;;;###autoload
 (defmacro add-hooks (&rest args)
   "Call `add-hook' on each cons pair in ARGS.
 Each pair has a `car' for setting hooks and a `cdr' for setting
