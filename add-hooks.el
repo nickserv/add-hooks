@@ -41,11 +41,6 @@
   "If OBJECT is a list, return it, else wrap it in a list."
   (if (listp object) object (list object)))
 
-(defun add-hooks-mapflat (function sequence)
-  "Apply FUNCTION to each element of SEQUENCE, and make a list of the results.
-Unlike `mapcar', the list is flattened nondestructively before it is returned."
-  (apply #'append (mapcar function sequence)))
-
 ;;;###autoload
 (defmacro add-hooks (&rest args)
   "Call `add-hook' on each cons pair in ARGS.
@@ -55,11 +50,11 @@ a single symbol or a list of symbols, in which case a function
 can be added to multiple hooks and/or multiple functions can be
 added to a hook."
   (macroexp-progn
-   (add-hooks-mapflat
+   (mapcan
     (lambda (arg)
       (let ((hooks (add-hooks-listify (car arg)))
             (functions (add-hooks-listify (cdr arg))))
-        (add-hooks-mapflat
+        (mapcan
          (lambda (hook)
            (mapcar (lambda (function) `(add-hook ',hook ',function)) functions))
          hooks)))
