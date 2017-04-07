@@ -1,3 +1,41 @@
+;;; add-hooks.el --- Macro for setting multiple hooks
+
+;; Copyright (C) 2017 Nick McCurdy
+
+;; Author: Nick McCurdy <nick@nickmccurdy.com>
+;; Created: 22 Jan 2017
+;; Version: 0
+;; Keywords: lisp
+;; Homepage: https://github.com/nickmccurdy/add-hooks
+
+;; This file is not part of GNU Emacs.
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the gnu general public license as
+;; published by the free software foundation; either version 2, or (at
+;; your option) any later version.
+
+;; This program is distributed in the hope that it will be useful, but
+;; without any warranty; without even the implied warranty of
+;; merchantability or fitness for a particular purpose.  see the gnu
+;; general public license for more details.
+
+;; You should have received a copy of the gnu general public license
+;; along with gnu emacs; see the file copying.  if not, write to the
+;; free software foundation, inc., 59 temple place - suite 330,
+;; boston, ma 02111-1307, usa.
+
+;;; Commentary:
+
+;; Typically, you would need to call `add-hook' multiple times with
+;; similar arguments to declare multiple functions for one hook, or
+;; vice versa.  The `add-hooks' macro tidies up duplicate hook and
+;; function names, with syntax inspired by `bind-key'.
+;;
+;; Please see README.md from the same repository for documentation.
+
+;;; Code:
+
 (defun listify (object)
   "If OBJECT is a list, return it, else wrap it in a list."
   (if (listp object) object (list object)))
@@ -24,3 +62,6 @@ added to a hook."
                                    functions))
                          hooks)))
             args)))
+
+(provide 'add-hooks)
+;;; add-hooks.el ends here

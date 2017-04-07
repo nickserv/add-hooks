@@ -1,5 +1,5 @@
 # `add-hooks`
-Emacs macro for setting multiple hooks without duplication.
+Emacs macro for setting multiple hooks.
 
 Typically, you would need to call `add-hook` multiple times with similar arguments to declare multiple functions for one hook, or vice versa. The `add-hooks` macro tidies up duplicate hook and function names, with syntax inspired by [`bind-key`](https://github.com/jwiegley/use-package/blob/master/bind-key.el).
 
