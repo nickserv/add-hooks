@@ -32,8 +32,6 @@
 ;; similar arguments to declare multiple functions for one hook, or
 ;; vice versa.  The `add-hooks' macro tidies up duplicate hook and
 ;; function names, with syntax inspired by `bind-key'.
-;;
-;; Please see README.md from the same repository for documentation.
 
 ;;; Code:
 
@@ -48,7 +46,20 @@ Each pair has a `car' for setting hooks and a `cdr' for setting
 functions to add to those hooks.  Either side of the pair can be
 a single symbol or a list of symbols, in which case a function
 can be added to multiple hooks and/or multiple functions can be
-added to a hook."
+added to a hook.
+
+Usage:
+
+  (add-hooks (hook-or-hooks . function-or-functions)...)
+
+Example:
+
+  (add-hooks ((css-mode-hook sgml-mode-hook) . emmet-mode))
+
+Result:
+
+  (add-hook 'css-mode-hook 'emmet-mode)
+  (add-hook 'sgml-mode-hook 'emmet-mode)"
   (macroexp-progn
    (mapcan
     (lambda (pair)
