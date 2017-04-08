@@ -42,8 +42,8 @@
   (if (listp object) object (list object)))
 
 ;;;###autoload
-(defmacro add-hooks (&rest args)
-  "Call `add-hook' on each cons pair in ARGS.
+(defmacro add-hooks (&rest pairs)
+  "Call `add-hook' on each cons pair in PAIRS.
 Each pair has a `car' for setting hooks and a `cdr' for setting
 functions to add to those hooks.  Either side of the pair can be
 a single symbol or a list of symbols, in which case a function
@@ -51,14 +51,14 @@ can be added to multiple hooks and/or multiple functions can be
 added to a hook."
   (macroexp-progn
    (mapcan
-    (lambda (arg)
-      (let ((hooks (add-hooks-listify (car arg)))
-            (functions (add-hooks-listify (cdr arg))))
+    (lambda (pair)
+      (let ((hooks (add-hooks-listify (car pair)))
+            (functions (add-hooks-listify (cdr pair))))
         (mapcan
          (lambda (hook)
            (mapcar (lambda (function) `(add-hook ',hook ',function)) functions))
          hooks)))
-    args)))
+    pairs)))
 
 (provide 'add-hooks)
 ;;; add-hooks.el ends here
