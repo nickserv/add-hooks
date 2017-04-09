@@ -43,6 +43,7 @@
 ;;;###autoload
 (defun add-hooks (pairs)
   "Call `add-hook' on each cons pair in PAIRS.
+
 Each pair has a `car' for setting hooks and a `cdr' for setting
 functions to add to those hooks.  Either side of the pair can be
 a single symbol or a list of symbols, in which case a function
