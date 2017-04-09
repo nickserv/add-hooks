@@ -10,28 +10,34 @@
   (should (equal (add-hooks-listify '(a)) '(a)))
   (should (equal (add-hooks-listify 'a) '(a))))
 
-(ert-deftest add-hooks ()
-  (should (equal (macroexpand '(add-hooks (hook-a . a)))
-                 '(add-hook 'hook-a 'a)))
-  (should (equal (macroexpand '(add-hooks (hook-a . a)
-                                          (hook-b . b)))
-                 '(progn
-                    (add-hook 'hook-a 'a)
-                    (add-hook 'hook-b 'b))))
-  (should (equal (macroexpand '(add-hooks (hook-a . (a b))))
-                 '(progn
-                    (add-hook 'hook-a 'a)
-                    (add-hook 'hook-a 'b))))
-  (should (equal (macroexpand '(add-hooks ((hook-a hook-b) . a)))
-                 '(progn
-                    (add-hook 'hook-a 'a)
-                    (add-hook 'hook-b 'a))))
-  (should (equal (macroexpand '(add-hooks ((hook-a hook-b) . (a b))))
-                 '(progn
-                    (add-hook 'hook-a 'a)
-                    (add-hook 'hook-a 'b)
-                    (add-hook 'hook-b 'a)
-                    (add-hook 'hook-b 'b)))))
+(macrolet ((fixture
+            (&rest body)
+            "Declare hook variables locally, then eval BODY forms."
+            `(let ((hook-a) (hook-b))
+               ,@body)))
+
+  (ert-deftest add-hooks-one-to-one ()
+    (fixture (add-hooks '((hook-a . a)))
+             (should (equal hook-a '(a)))))
+
+  (ert-deftest add-hooks-multiple ()
+    (fixture (add-hooks '((hook-a . a) (hook-b . b)))
+             (should (equal hook-a '(a)))
+             (should (equal hook-b '(b)))))
+
+  (ert-deftest add-hooks-one-to-many ()
+    (fixture (add-hooks '((hook-a . (a b))))
+             (should (equal hook-a '(b a)))))
+
+  (ert-deftest add-hooks-many-to-one ()
+    (fixture (add-hooks '(((hook-a hook-b) . a)))
+             (should (equal hook-a '(a)))
+             (should (equal hook-b '(a)))))
+
+  (ert-deftest add-hooks-many-to-many ()
+    (fixture (add-hooks '(((hook-a hook-b) . (a b))))
+             (should (equal hook-a '(b a)))
+             (should (equal hook-b '(b a))))))
 
 (provide 'add-hooks-test)
 ;;; add-hooks-test.el ends here

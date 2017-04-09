@@ -30,8 +30,9 @@
 
 ;; Typically, you would need to call `add-hook' multiple times with
 ;; similar arguments to declare multiple functions for one hook, or
-;; vice versa.  The `add-hooks' macro tidies up duplicate hook and
-;; function names, with syntax inspired by `bind-key'.
+;; vice versa.  The `add-hooks' function tidies up duplicate hook and
+;; function names into a single declarative call (inspired by the
+;; `bind-key' package).
 
 ;;; Code:
 
@@ -40,7 +41,7 @@
   (if (listp object) object (list object)))
 
 ;;;###autoload
-(defmacro add-hooks (&rest pairs)
+(defun add-hooks (pairs)
   "Call `add-hook' on each cons pair in PAIRS.
 Each pair has a `car' for setting hooks and a `cdr' for setting
 functions to add to those hooks.  Either side of the pair can be
@@ -50,26 +51,28 @@ added to a hook.
 
 Usage:
 
-  (add-hooks (hook-or-hooks . function-or-functions)...)
+  (add-hooks '((hook-or-hooks . function-or-functions)...))
 
 Example:
 
-  (add-hooks ((css-mode-hook sgml-mode-hook) . emmet-mode))
+  (add-hooks '(((css-mode-hook sgml-mode-hook) . emmet-mode)))
 
 Result:
 
-  (add-hook 'css-mode-hook 'emmet-mode)
-  (add-hook 'sgml-mode-hook 'emmet-mode)"
-  (macroexp-progn
-   (mapcan
-    (lambda (pair)
+  ELISP> css-mode-hook
+  (emmet-mode)
+
+  ELISP> sgml-mode-hook
+  (emmet-mode)"
+  (mapc (lambda (pair)
       (let ((hooks (add-hooks-listify (car pair)))
             (functions (add-hooks-listify (cdr pair))))
-        (mapcan
-         (lambda (hook)
-           (mapcar (lambda (function) `(add-hook ',hook ',function)) functions))
+            (mapc (lambda (hook)
+                    (mapc (lambda (function)
+                            (add-hook hook function))
+                          functions))
          hooks)))
-    pairs)))
+        pairs))
 
 (provide 'add-hooks)
 ;;; add-hooks.el ends here
