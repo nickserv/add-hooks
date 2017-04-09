@@ -1,5 +1,5 @@
 # `add-hooks`
-Emacs macro for setting multiple hooks.
+Emacs function for setting multiple hooks.
 
 Typically, you would need to call `add-hook` multiple times with
 similar arguments to declare multiple functions for one hook, or

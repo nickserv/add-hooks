@@ -1,4 +1,4 @@
-;;; add-hooks.el --- Macro for setting multiple hooks
+;;; add-hooks.el --- Function for setting multiple hooks
 
 ;; Copyright (C) 2017 Nick McCurdy
 
