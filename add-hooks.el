@@ -36,8 +36,6 @@
 
 ;;; Code:
 
-(require 'cl)
-
 (defun add-hooks-listify (object)
   "If OBJECT is a list, return it, else wrap it in a list."
   (if (listp object) object (list object)))

@@ -3,6 +3,7 @@
 ;;; Code:
 
 (require 'ert)
+(require 'cl)
 (require 'add-hooks)
 
 (ert-deftest add-hooks-listify ()
