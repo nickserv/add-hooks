@@ -17,6 +17,24 @@
             `(let ((hook-a) (hook-b))
                ,@body)))
 
+  (ert-deftest add-hook*-one-to-one ()
+    (fixture (add-hook* 'hook-a 'a)
+             (should (equal hook-a '(a)))))
+
+  (ert-deftest add-hook*-one-to-many ()
+    (fixture (add-hook* 'hook-a '(a b))
+             (should (equal hook-a '(b a)))))
+
+  (ert-deftest add-hook*-many-to-one ()
+    (fixture (add-hook* '(hook-a hook-b) 'a)
+             (should (equal hook-a '(a)))
+             (should (equal hook-b '(a)))))
+
+  (ert-deftest add-hook*-many-to-many ()
+    (fixture (add-hook* '(hook-a hook-b) '(a b))
+             (should (equal hook-a '(b a)))
+             (should (equal hook-b '(b a)))))
+
   (ert-deftest add-hooks-one-to-one ()
     (fixture (add-hooks '((hook-a . a)))
              (should (equal hook-a '(a)))))

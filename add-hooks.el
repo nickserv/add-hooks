@@ -1,4 +1,4 @@
-;;; add-hooks.el --- Function for setting multiple hooks
+;;; add-hooks.el --- Functions for setting multiple hooks
 
 ;; Copyright (C) 2017 Nick McCurdy
 
@@ -29,9 +29,10 @@
 
 ;; Typically, you would need to call `add-hook' multiple times with
 ;; similar arguments to declare multiple functions for one hook, or
-;; vice versa.  The `add-hooks' function tidies up duplicate hook and
-;; function names into a single declarative call (inspired by the
-;; `bind-key' package).
+;; vice versa.  `add-hook*' is a variant that takes multiple hooks or
+;; functions that apply to each other.  The `add-hooks' function
+;; tidies up duplicate hook and function names further into a single
+;; declarative call (inspired by the `bind-key' package).
 
 ;;; Code:
 
@@ -40,14 +41,36 @@
   (if (listp object) object (list object)))
 
 ;;;###autoload
+(defun add-hook* (hooks functions)
+  "Call `add-hook' for each combination of items in HOOKS and FUNCTIONS.
+
+Either value can be a single symbol or a list of symbols, in
+which case a function can be added to multiple hooks and/or
+multiple functions can be added to a hook.  This behaves like
+`add-hook' when both values are atoms.
+
+Example:
+
+  (add-hooks '(css-mode-hook sgml-mode-hook) 'emmet-mode)
+
+Result:
+
+  ELISP> css-mode-hook
+  (emmet-mode)
+
+  ELISP> sgml-mode-hook
+  (emmet-mode)"
+  (dolist (hook (add-hooks-listify hooks))
+    (dolist (function (add-hooks-listify functions))
+      (add-hook hook function))))
+
+;;;###autoload
 (defun add-hooks (pairs)
-  "Call `add-hook' on each cons pair in PAIRS.
+  "Call `add-hook*' on each cons pair in PAIRS.
 
 Each pair has a `car' for setting hooks and a `cdr' for setting
 functions to add to those hooks.  Either side of the pair can be
-a single symbol or a list of symbols, in which case a function
-can be added to multiple hooks and/or multiple functions can be
-added to a hook.
+a single symbol or a list of symbols, as passed to `add-hook*'.
 
 Usage:
 
@@ -65,11 +88,7 @@ Result:
   ELISP> sgml-mode-hook
   (emmet-mode)"
   (dolist (pair pairs)
-    (let ((hooks (add-hooks-listify (car pair)))
-          (functions (add-hooks-listify (cdr pair))))
-      (dolist (hook hooks)
-        (dolist (function functions)
-          (add-hook hook function))))))
+    (add-hook* (car pair) (cdr pair))))
 
 (provide 'add-hooks)
 ;;; add-hooks.el ends here
