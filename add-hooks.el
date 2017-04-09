@@ -7,7 +7,6 @@
 ;; Version: 1.1.0
 ;; Keywords: lisp
 ;; Homepage: https://github.com/nickmccurdy/add-hooks
-;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is not part of GNU Emacs.
 
