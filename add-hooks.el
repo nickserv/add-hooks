@@ -36,6 +36,8 @@
 
 ;;; Code:
 
+(require 'cl)
+
 (defun add-hooks-listify (object)
   "If OBJECT is a list, return it, else wrap it in a list."
   (if (listp object) object (list object)))
@@ -66,13 +68,13 @@ Result:
   ELISP> sgml-mode-hook
   (emmet-mode)"
   (mapc (lambda (pair)
-      (let ((hooks (add-hooks-listify (car pair)))
-            (functions (add-hooks-listify (cdr pair))))
+          (let ((hooks (add-hooks-listify (car pair)))
+                (functions (add-hooks-listify (cdr pair))))
             (mapc (lambda (hook)
                     (mapc (lambda (function)
                             (add-hook hook function))
                           functions))
-         hooks)))
+                  hooks)))
         pairs))
 
 (provide 'add-hooks)
