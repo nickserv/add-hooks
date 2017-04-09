@@ -64,15 +64,12 @@ Result:
 
   ELISP> sgml-mode-hook
   (emmet-mode)"
-  (mapc (lambda (pair)
-          (let ((hooks (add-hooks-listify (car pair)))
-                (functions (add-hooks-listify (cdr pair))))
-            (mapc (lambda (hook)
-                    (mapc (lambda (function)
-                            (add-hook hook function))
-                          functions))
-                  hooks)))
-        pairs))
+  (dolist (pair pairs)
+    (let ((hooks (add-hooks-listify (car pair)))
+          (functions (add-hooks-listify (cdr pair))))
+      (dolist (hook hooks)
+        (dolist (function functions)
+          (add-hook hook function))))))
 
 (provide 'add-hooks)
 ;;; add-hooks.el ends here
