@@ -51,7 +51,7 @@ multiple functions can be added to a hook.  This behaves like
 
 Example:
 
-  (add-hooks '(css-mode-hook sgml-mode-hook) 'emmet-mode)
+  (add-hook* '(css-mode-hook sgml-mode-hook) 'emmet-mode)
 
 Result:
 
