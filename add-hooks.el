@@ -29,10 +29,10 @@
 
 ;; Typically, you would need to call `add-hook' multiple times with
 ;; similar arguments to declare multiple functions for one hook, or
-;; vice versa.  `add-hook*' is a variant that takes multiple hooks or
-;; functions that apply to each other.  The `add-hooks' function
-;; tidies up duplicate hook and function names further into a single
-;; declarative call (inspired by the `bind-key' package).
+;; vice versa.  `add-hooks-pair' is a variant that takes multiple
+;; hooks or functions that apply to each other.  The `add-hooks'
+;; function tidies up duplicate hook and function names further into a
+;; single declarative call (inspired by the `bind-key' package).
 
 ;;; Code:
 
@@ -41,8 +41,8 @@
   (if (listp object) object (list object)))
 
 ;;;###autoload
-(defun add-hook* (hooks functions)
-  "Call `add-hook' for each combination of items in HOOKS and FUNCTIONS.
+(defun add-hooks-pair (hooks functions)
+  "Call `add-hook' for each combined pair of items in HOOKS and FUNCTIONS.
 
 Either value can be a single symbol or a list of symbols, in
 which case a function can be added to multiple hooks and/or
@@ -51,7 +51,7 @@ multiple functions can be added to a hook.  This behaves like
 
 Example:
 
-  (add-hook* '(css-mode-hook sgml-mode-hook) 'emmet-mode)
+  (add-hooks-pair '(css-mode-hook sgml-mode-hook) 'emmet-mode)
 
 Result:
 
@@ -66,11 +66,12 @@ Result:
 
 ;;;###autoload
 (defun add-hooks (pairs)
-  "Call `add-hook*' on each cons pair in PAIRS.
+  "Call `add-hooks-pair' on each cons pair in PAIRS.
 
 Each pair has a `car' for setting hooks and a `cdr' for setting
 functions to add to those hooks.  Either side of the pair can be
-a single symbol or a list of symbols, as passed to `add-hook*'.
+a single symbol or a list of symbols, as passed to
+`add-hooks-pair'.
 
 Usage:
 
@@ -88,7 +89,7 @@ Result:
   ELISP> sgml-mode-hook
   (emmet-mode)"
   (dolist (pair pairs)
-    (add-hook* (car pair) (cdr pair))))
+    (add-hooks-pair (car pair) (cdr pair))))
 
 (provide 'add-hooks)
 ;;; add-hooks.el ends here
