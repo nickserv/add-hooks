@@ -25,14 +25,10 @@ multiple functions can be added to a hook.  This behaves like
 
 #### Example
 ```emacs
-(add-hooks-pair '(css-mode-hook sgml-mode-hook) 'emmet-mode)
-```
-
-#### Result
-```emacs
+ELISP> (add-hooks-pair '(css-mode-hook sgml-mode-hook) 'emmet-mode)
+nil
 ELISP> css-mode-hook
 (emmet-mode)
-
 ELISP> sgml-mode-hook
 (emmet-mode)
 ```
@@ -46,21 +42,16 @@ a single symbol or a list of symbols, as passed to
 `add-hooks-pair`.
 
 #### Usage
-
 ```emacs
-(add-hooks '((hook-or-hooks . function-or-functions)...))
+(add-hooks ((HOOKS . FUNCTIONS)...))
 ```
 
 #### Example
 ```emacs
-(add-hooks '(((css-mode-hook sgml-mode-hook) . emmet-mode)))
-```
-
-#### Result
-```emacs
+ELISP> (add-hooks '(((css-mode-hook sgml-mode-hook) . emmet-mode)))
+nil
 ELISP> css-mode-hook
 (emmet-mode)
-
 ELISP> sgml-mode-hook
 (emmet-mode)
 ```

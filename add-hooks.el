@@ -51,13 +51,10 @@ multiple functions can be added to a hook.  This behaves like
 
 Example:
 
-  (add-hooks-pair '(css-mode-hook sgml-mode-hook) 'emmet-mode)
-
-Result:
-
+  ELISP> (add-hooks-pair '(css-mode-hook sgml-mode-hook) 'emmet-mode)
+  nil
   ELISP> css-mode-hook
   (emmet-mode)
-
   ELISP> sgml-mode-hook
   (emmet-mode)"
   (dolist (hook (add-hooks-listify hooks))
@@ -75,17 +72,14 @@ a single symbol or a list of symbols, as passed to
 
 Usage:
 
-  (add-hooks '((hook-or-hooks . function-or-functions)...))
+  (add-hooks ((HOOKS . FUNCTIONS)...))
 
 Example:
 
-  (add-hooks '(((css-mode-hook sgml-mode-hook) . emmet-mode)))
-
-Result:
-
+  ELISP> (add-hooks '(((css-mode-hook sgml-mode-hook) . emmet-mode)))
+  nil
   ELISP> css-mode-hook
   (emmet-mode)
-
   ELISP> sgml-mode-hook
   (emmet-mode)"
   (dolist (pair pairs)
