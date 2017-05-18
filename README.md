@@ -21,11 +21,12 @@ Call `add-hook` for each combined pair of items in *HOOKS* and *FUNCTIONS*.
 Either value can be a single symbol or a list of symbols, in
 which case a function can be added to multiple hooks and/or
 multiple functions can be added to a hook.  This behaves like
-`add-hook` when both values are atoms.
+`add-hook` when both values are atoms.  It is implied that hook
+symbols will end with `-hook`.
 
 #### Example
 ```emacs
-ELISP> (add-hooks-pair '(css-mode-hook sgml-mode-hook) 'emmet-mode)
+ELISP> (add-hooks-pair '(css-mode sgml-mode) 'emmet-mode)
 nil
 ELISP> css-mode-hook
 (emmet-mode)
@@ -48,7 +49,7 @@ a single symbol or a list of symbols, as passed to
 
 #### Example
 ```emacs
-ELISP> (add-hooks '(((css-mode-hook sgml-mode-hook) . emmet-mode)))
+ELISP> (add-hooks '(((css-mode sgml-mode) . emmet-mode)))
 nil
 ELISP> css-mode-hook
 (emmet-mode)

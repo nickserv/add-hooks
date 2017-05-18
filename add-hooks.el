@@ -40,6 +40,13 @@
   "If OBJECT is a list, return it, else wrap it in a list."
   (if (listp object) object (list object)))
 
+(defun add-hooks-normalize-hook (hook)
+  "If HOOK is a symbol, ensure `-hook' is appended, else return HOOK itself."
+  (if (and (symbolp hook)
+           (not (string-match "-hook$" (symbol-name hook))))
+      (intern (concat (symbol-name hook) "-hook"))
+    hook))
+
 ;;;###autoload
 (defun add-hooks-pair (hooks functions)
   "Call `add-hook' for each combined pair of items in HOOKS and FUNCTIONS.
@@ -47,17 +54,18 @@
 Either value can be a single symbol or a list of symbols, in
 which case a function can be added to multiple hooks and/or
 multiple functions can be added to a hook.  This behaves like
-`add-hook' when both values are atoms.
+`add-hook' when both values are atoms.  It is implied that hook
+symbols will end with `-hook'.
 
 Example:
 
-  ELISP> (add-hooks-pair '(css-mode-hook sgml-mode-hook) 'emmet-mode)
+  ELISP> (add-hooks-pair '(css-mode sgml-mode) 'emmet-mode)
   nil
   ELISP> css-mode-hook
   (emmet-mode)
   ELISP> sgml-mode-hook
   (emmet-mode)"
-  (dolist (hook (add-hooks-listify hooks))
+  (dolist (hook (mapcar 'add-hooks-normalize-hook (add-hooks-listify hooks)))
     (dolist (function (add-hooks-listify functions))
       (add-hook hook function))))
 
@@ -76,7 +84,7 @@ Usage:
 
 Example:
 
-  ELISP> (add-hooks '(((css-mode-hook sgml-mode-hook) . emmet-mode)))
+  ELISP> (add-hooks '(((css-mode sgml-mode) . emmet-mode)))
   nil
   ELISP> css-mode-hook
   (emmet-mode)
