@@ -7,14 +7,20 @@
 (require 'add-hooks)
 
 (ert-deftest add-hooks-listify ()
+  ;; Nil
   (should (eq (add-hooks-listify nil) nil))
+  ;; List
   (should (equal (add-hooks-listify '(a)) '(a)))
+  ;; Atom
   (should (equal (add-hooks-listify 'a) '(a))))
 
 (ert-deftest add-hooks-normalize-hook ()
-  (should (equal (add-hooks-normalize-hook (lambda () nil)) (lambda () nil)))
+  ;; Symbol
   (should (eq (add-hooks-normalize-hook 'a) 'a-hook))
-  (should (eq (add-hooks-normalize-hook 'a-hook) 'a-hook)))
+  ;; Verbose symbol
+  (should (eq (add-hooks-normalize-hook 'a-hook) 'a-hook))
+  ;; Lambda
+  (should (equal (add-hooks-normalize-hook (lambda () nil)) (lambda () nil))))
 
 (macrolet ((fixture
             (&rest body)
@@ -42,13 +48,13 @@
              (should (equal a-hook '(a)))))
 
   (ert-deftest add-hooks ()
-    ;; One to one
-    (fixture (add-hooks '((a . a)))
-             (should (equal a-hook '(a))))
     ;; Multiple
     (fixture (add-hooks '((a . a) (b . b)))
              (should (equal a-hook '(a)))
              (should (equal b-hook '(b))))
+    ;; One to one
+    (fixture (add-hooks '((a . a)))
+             (should (equal a-hook '(a))))
     ;; One to many
     (fixture (add-hooks '((a . (a b))))
              (should (equal a-hook '(b a))))
