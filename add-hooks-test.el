@@ -12,7 +12,10 @@
   ;; List
   (should (equal (add-hooks-listify '(a)) '(a)))
   ;; Atom
-  (should (equal (add-hooks-listify 'a) '(a))))
+  (should (equal (add-hooks-listify 'a) '(a)))
+  ;; Lambda
+  (let ((function (lambda () (message "Hello, world!"))))
+    (should (equal (add-hooks-listify function) (list function)))))
 
 (ert-deftest add-hooks-normalize-hook ()
   ;; Symbol
@@ -45,7 +48,11 @@
              (should (equal b-hook '(b a))))
     ;; Verbose
     (fixture (add-hooks-pair 'a-hook 'a)
-             (should (equal a-hook '(a)))))
+             (should (equal a-hook '(a))))
+    ;; Lambda
+    (let ((function (lambda () (message "Hello, world!"))))
+      (fixture (add-hooks-pair 'a function)
+               (should (equal a-hook (list function))))))
 
   (ert-deftest add-hooks ()
     ;; Multiple
@@ -68,7 +75,11 @@
              (should (equal b-hook '(b a))))
     ;; Verbose
     (fixture (add-hooks '((a-hook . a)))
-             (should (equal a-hook '(a))))))
+             (should (equal a-hook '(a))))
+    ;; Lambda
+    (let ((function (lambda () (message "Hello, world!"))))
+      (fixture (add-hooks `((a ,function)))
+               (should (equal a-hook (list function)))))))
 
 (provide 'add-hooks-test)
 ;;; add-hooks-test.el ends here

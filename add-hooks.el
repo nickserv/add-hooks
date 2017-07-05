@@ -38,7 +38,10 @@
 
 (defun add-hooks-listify (object)
   "If OBJECT is a list, return it, else wrap it in a list."
-  (if (listp object) object (list object)))
+  (if (and (listp object)
+           (not (functionp object)))
+      object
+    (list object)))
 
 (defun add-hooks-normalize-hook (hook)
   "If HOOK is a symbol, ensure `-hook' is appended, else return HOOK itself."
