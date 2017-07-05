@@ -22,52 +22,45 @@
             `(let ((a-hook) (b-hook))
                ,@body)))
 
-  (ert-deftest add-hooks-pair-one-to-one ()
+  (ert-deftest add-hooks-pair ()
+    ;; One to one
     (fixture (add-hooks-pair 'a 'a)
-             (should (equal a-hook '(a)))))
-
-  (ert-deftest add-hooks-pair-one-to-many ()
+             (should (equal a-hook '(a))))
+    ;; One to many
     (fixture (add-hooks-pair 'a '(a b))
-             (should (equal a-hook '(b a)))))
-
-  (ert-deftest add-hooks-pair-many-to-one ()
+             (should (equal a-hook '(b a))))
+    ;; Many to one
     (fixture (add-hooks-pair '(a b) 'a)
              (should (equal a-hook '(a)))
-             (should (equal b-hook '(a)))))
-
-  (ert-deftest add-hooks-pair-many-to-many ()
+             (should (equal b-hook '(a))))
+    ;; Many to many
     (fixture (add-hooks-pair '(a b) '(a b))
              (should (equal a-hook '(b a)))
-             (should (equal b-hook '(b a)))))
-
-  (ert-deftest add-hooks-pair-verbose ()
+             (should (equal b-hook '(b a))))
+    ;; Verbose
     (fixture (add-hooks-pair 'a-hook 'a)
              (should (equal a-hook '(a)))))
 
-  (ert-deftest add-hooks-one-to-one ()
+  (ert-deftest add-hooks ()
+    ;; One to one
     (fixture (add-hooks '((a . a)))
-             (should (equal a-hook '(a)))))
-
-  (ert-deftest add-hooks-multiple ()
+             (should (equal a-hook '(a))))
+    ;; Multiple
     (fixture (add-hooks '((a . a) (b . b)))
              (should (equal a-hook '(a)))
-             (should (equal b-hook '(b)))))
-
-  (ert-deftest add-hooks-one-to-many ()
+             (should (equal b-hook '(b))))
+    ;; One to many
     (fixture (add-hooks '((a . (a b))))
-             (should (equal a-hook '(b a)))))
-
-  (ert-deftest add-hooks-many-to-one ()
+             (should (equal a-hook '(b a))))
+    ;; Many to one
     (fixture (add-hooks '(((a b) . a)))
              (should (equal a-hook '(a)))
-             (should (equal b-hook '(a)))))
-
-  (ert-deftest add-hooks-many-to-many ()
+             (should (equal b-hook '(a))))
+    ;; Many to many
     (fixture (add-hooks '(((a b) . (a b))))
              (should (equal a-hook '(b a)))
-             (should (equal b-hook '(b a)))))
-
-  (ert-deftest add-hooks-verbose ()
+             (should (equal b-hook '(b a))))
+    ;; Verbose
     (fixture (add-hooks '((a-hook . a)))
              (should (equal a-hook '(a))))))
 
