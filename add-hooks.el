@@ -37,7 +37,7 @@
 ;;; Code:
 
 (defun add-hooks-listify (object)
-  "If OBJECT is a list, return it, else wrap it in a list."
+  "If OBJECT is a list and not a function, return it, else wrap it in a list."
   (if (and (listp object)
            (not (functionp object)))
       object
@@ -54,11 +54,11 @@
 (defun add-hooks-pair (hooks functions)
   "Call `add-hook' for each combined pair of items in HOOKS and FUNCTIONS.
 
-Either value can be a single symbol or a list of symbols, in
-which case a function can be added to multiple hooks and/or
-multiple functions can be added to a hook.  This behaves like
-`add-hook' when both values are atoms.  It is implied that hook
-symbols will end with `-hook'.
+HOOKS can be a symbol or a list of symbols representing hook
+variables (the `-hook' suffix is implied).  FUNCTIONS can be a
+symbol, a lambda, or a list of either representing hook
+functions.  If lists are used, a function can be added to
+multiple hooks and/or multiple functions can be added to a hook.
 
 Example:
 
@@ -77,9 +77,8 @@ Example:
   "Call `add-hooks-pair' on each cons pair in PAIRS.
 
 Each pair has a `car' for setting hooks and a `cdr' for setting
-functions to add to those hooks.  Either side of the pair can be
-a single symbol or a list of symbols, as passed to
-`add-hooks-pair'.
+functions to add to those hooks.  Pair values are passed to the
+HOOKS and FUNCTIONS arguments of `add-hooks-pair', respectively.
 
 Usage:
 
