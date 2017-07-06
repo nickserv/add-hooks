@@ -4,7 +4,7 @@
 
 ;; Author: Nick McCurdy <nick@nickmccurdy.com>
 ;; Created: 22 Jan 2017
-;; Version: 3.0.0
+;; Version: 3.1.0
 ;; Keywords: lisp
 ;; Homepage: https://github.com/nickmccurdy/add-hooks
 
