@@ -28,9 +28,7 @@
   ;; Symbol
   (should (eq (add-hooks-normalize-hook 'a) 'a-hook))
   ;; Verbose symbol
-  (should (eq (add-hooks-normalize-hook 'a-hook) 'a-hook))
-  ;; Lambda
-  (should (equal (add-hooks-normalize-hook function) function)))
+  (should (eq (add-hooks-normalize-hook 'a-hook) 'a-hook)))
 
 (ert-deftest add-hooks-pair ()
   ;; One to one
