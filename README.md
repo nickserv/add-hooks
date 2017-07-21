@@ -1,4 +1,5 @@
 # `add-hooks`
+[![Build Status](https://travis-ci.org/nickmccurdy/add-hooks.svg?branch=master)](https://travis-ci.org/nickmccurdy/add-hooks)
 [![MELPA](https://melpa.org/packages/add-hooks-badge.svg)](https://melpa.org/#/add-hooks)
 [![MELPA Stable](https://stable.melpa.org/packages/add-hooks-badge.svg)](https://stable.melpa.org/#/add-hooks)
 
