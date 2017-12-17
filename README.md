@@ -14,6 +14,10 @@ single declarative call (inspired by the
 [`bind-key`](https://github.com/jwiegley/use-package/blob/master/bind-key.el)
  package).
 
+If you're using [`use-package`](https://github.com/jwiegley/use-package), use its [`:hook`](https://github.com/jwiegley/use-package#hooks) keyword instead, which has a
+similar syntax while establishing autoload definitions and supporting
+deferred loading.
+
 ## Documentation
 
 ### `(add-hooks-pair HOOKS FUNCTIONS)`

@@ -34,6 +34,10 @@
 ;; function tidies up duplicate hook and function names further into a
 ;; single declarative call (inspired by the `bind-key' package).
 
+;; If you're using `use-package', use its `:hook' keyword instead, which has a
+;; similar syntax while establishing autoload definitions and supporting
+;; deferred loading.
+
 ;;; Code:
 
 (defun add-hooks-listify (object)
